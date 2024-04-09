@@ -14,6 +14,11 @@ namespace LaneChangeDotNet
     [FirestoreData]
     public class Snapshot
     {
+        public Snapshot()
+        {
+            // needed for Firestore sdk conversion.
+        }
+
         [FirestoreProperty("googleLatitude")]
         public double GoogleLatitude { get; set; }
         [FirestoreProperty("googleLongitude")]
@@ -22,21 +27,24 @@ namespace LaneChangeDotNet
         public double Latitude { get; set; }
         [FirestoreProperty("longitude")]
         public double Longitude { get; set; }
-        [FirestoreProperty("heading")]
-        public int SnapshotNumber { get; set; }
         [FirestoreProperty("isManipulated")]
         public bool IsManipulated { get; set; }
         [FirestoreProperty("timeStamp")]
         public string TimeStampAsString { get; set; }
-        public DateTime TimeStamp { 
+        public DateTime TimeStamp
+        {
             get
             {
+                if (TimeStampAsString == null)
+                {
+                    return DateTime.Now;
+                }
                 return DateTime.Parse(TimeStampAsString);
             }
         }
         [FirestoreProperty("accuracy")]
         public float Accuracy { get; set; }
-/*        [FirestoreProperty("heading")]
-        public float? Heading { get; set; }*/
+        [FirestoreProperty("heading")]
+        public int Count { get; set; }
     }
 }
